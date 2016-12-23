@@ -1,0 +1,35 @@
+{
+  "name" : "dersonsena/3x4-cropper",
+  "description" : "3x4 Cropper",
+  "type": "project",
+  "minimum-stability": "stable",
+  "require": {
+    "php" : ">=7",
+    "ext-pdo": "*",
+    "ext-curl": "*",
+    "imagine/imagine" : "dev-master",
+    "slim/slim" : "^3.0",
+    "slim/php-view" : "dev-master",
+    "slim/flash" : "dev-master",
+    "bower-asset/jquery": "~2.1.1",
+    "bower-asset/bootstrap" : "~3.3.7",
+    "bower-asset/components-font-awesome": "~4.7.0"
+  },
+  "authors": [
+    {
+      "name": "Kilderson Sena",
+      "email": "kilderson@getto.com.br"
+    }
+  ],
+  "autoload" : {
+    "psr-4" : {
+      "App\\" : "src"
+    }
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "web/bower"
+    }
+  }
+}

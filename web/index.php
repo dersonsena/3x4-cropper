@@ -18,8 +18,10 @@ defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 defined('WEB_PATH') or define('WEB_PATH', dirname(__FILE__));
 defined('ROOT_PATH') or define('ROOT_PATH', dirname(__FILE__) . DS . '..' . DS);
 defined('SRC_PATH') or define('SRC_PATH', ROOT_PATH . 'src');
-defined('BASE_URL') or define('BASE_URL', 'http://dev.3x4cropper.com.br:8080');
 defined('FILES_PATH') or define('FILES_PATH', WEB_PATH . DS . 'files');
+defined('APP_ENV') or define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'prod'));
+defined('APP_ENV_DEV') or define('APP_ENV_DEV', APP_ENV === 'development');
+defined('BASE_URL') or define('BASE_URL', (APP_ENV_DEV ? 'http://dev.3x4cropper.com.br:8080' : 'http://3x4.studiostilo.com.br'));
 
 require_once ROOT_PATH . DS . 'vendor'. DS . 'autoload.php';
 

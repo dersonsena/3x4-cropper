@@ -1,11 +1,87 @@
+<?php
+/** @var string $imgSrc */
+/** @var array $messages */
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>3x4 Cropper</title>
+
+    <link rel="stylesheet" href="<?= BASE_URL ?>/bower/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>/bower/bootstrap/dist/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>/bower/components-font-awesome/css/font-awesome.min.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-    <h1>Página inicial!</h1>
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>3x4 Cropper <small>Gerador de fotos 3x4</small></h1>
+        </div>
+
+        <?php if (!empty($messages)) : ?>
+            <?php $class = (isset($messages['success']) ? 'success' : 'danger') ?>
+            <?php $title = (isset($messages['success']) ? 'Tudo Certo!' : 'Oppss... Ocorreu um erro!') ?>
+            <?php $message = (isset($messages['success']) ? $messages['success'][0] : $messages['error'][0]) ?>
+
+            <div class="alert alert-<?= $class ?> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="margin-top: 0"><?= $title ?></h3> <?= $message ?>
+            </div>
+        <?php endif; ?>
+
+        <form id="frm-photo" method="post" class="text-center" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-9 form-group">
+                    <input type="file" name="photo" id="photo" required class="form-control input-lg" placeholder="Imagem no tamanho 10x15cm...">
+                    <p class="help-block text-left">
+                        - Insira uma imagem de no máximo <strong><?= ini_get('upload_max_filesize') ?></strong>;
+                    </p>
+                    <p class="help-block text-left">
+                        - Insira uma imagem de <strong>10x15cm</strong>;
+                    </p>
+                    <p class="help-block text-left">
+                        - Insira uma imagem no formato: <strong>JPG</strong> ou <strong>PNG</strong>;
+                    </p>
+                </div>
+                <div class="col-md-3 form-group">
+                    <button type="submit" id="btn-upload" class="btn btn-primary btn-block btn-lg">
+                        <i class="fa fa-check-circle"></i> Gerar 3x4 Agora!
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <?php if (!is_null($imgSrc)) : ?>
+
+            <div class="row">
+                <div class="col-md-12"><hr /></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <a href="<?= BASE_URL . '/download' ?>" title="Fazer download da imagem" target="_blank" class="btn btn-success btn-lg">
+                            <i class="fa fa-download"></i> Baixar Imagem
+                        </a>
+                    </p>
+                    <img src="<?= $imgSrc ?>" style="max-width: 100%" class="thumbnail" alt="Fotos 3x4"/>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <script type="text/javascript" src="<?= BASE_URL ?>/bower/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="<?= BASE_URL ?>/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

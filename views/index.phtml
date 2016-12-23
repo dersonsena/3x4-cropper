@@ -1,5 +1,6 @@
 <?php
 /** @var string $imgSrc */
+/** @var string $imageName */
 /** @var \Slim\Flash\Messages $flash */
 
 $messages = $flash->getMessages();
@@ -73,7 +74,7 @@ $messages = $flash->getMessages();
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <a href="<?= BASE_URL . '/download' ?>" title="Fazer download da imagem" target="_blank" class="btn btn-success btn-lg">
+                        <a href="<?= BASE_URL . "/download/{$imageName}" ?>" title="Fazer download da imagem" target="_blank" class="btn btn-success btn-lg">
                             <i class="fa fa-download"></i> Baixar Imagem
                         </a>
                     </p>

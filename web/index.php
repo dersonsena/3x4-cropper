@@ -20,7 +20,7 @@ defined('ROOT_PATH') or define('ROOT_PATH', dirname(__FILE__) . DS . '..' . DS);
 defined('SRC_PATH') or define('SRC_PATH', ROOT_PATH . 'src');
 defined('FILES_PATH') or define('FILES_PATH', WEB_PATH . DS . 'files');
 defined('APP_ENV') or define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'prod'));
-defined('APP_ENV_DEV') or define('APP_ENV_DEV', APP_ENV === 'development');
+defined('APP_ENV_DEV') or define('APP_ENV_DEV', APP_ENV === 'dev');
 defined('BASE_URL') or define('BASE_URL', (APP_ENV_DEV ? 'http://dev.3x4cropper.com.br:8080' : 'http://3x4.studiostilo.com.br'));
 
 require_once ROOT_PATH . DS . 'vendor'. DS . 'autoload.php';
@@ -42,12 +42,14 @@ $container['imagine'] = new \Imagine\Gd\Imagine;
 $app->any('/', function (Request $request, Response $response) {
 
     $imgSrc = null;
+    $imageName = null;
 
     if ($request->isPost()) {
 
         try {
 
             /** @var UploadedFile $uploadedImage */
+            $imageName = date('Ymdhis') . '.jpg';
             $uploadedImage = $request->getUploadedFiles()['photo'];
 
             if (!in_array($uploadedImage->getClientMediaType(), ['image/jpeg', 'image/jpeg']))
@@ -72,14 +74,14 @@ $app->any('/', function (Request $request, Response $response) {
                 }
             }
 
-            $collage->save(FILES_PATH . DS . 'foto-3x4.jpg', [
+            $collage->save(FILES_PATH . DS . $imageName, [
                 'resolution-units' => ImageInterface::RESOLUTION_PIXELSPERINCH,
                 'resolution-x' => 300,
                 'resolution-y' => 300,
                 'jpeg_quality' => 100,
             ]);
 
-            $imgSrc = BASE_URL . '/files/foto-3x4.jpg';
+            $imgSrc = BASE_URL . "/files/{$imageName}";
 
             $this->flash->addMessage('success', 'A Foto 3x4 foi gerada com sucesso! Clique no botão <strong>Baixar Imagem</strong> para fazer o download!');
 
@@ -90,13 +92,15 @@ $app->any('/', function (Request $request, Response $response) {
 
     return $this->view->render($response, "index.phtml", [
         'imgSrc' => $imgSrc,
+        'imageName' => $imageName,
         'flash' => $this->flash
     ]);
 });
 
-$app->get('/download', function (Request $request, Response $response) {
+$app->get('/download/{filename}', function (Request $request, Response $response) {
 
-    $file = FILES_PATH . DS . 'foto-3x4.jpg';
+    $filename = $request->getAttribute('filename');
+    $file = FILES_PATH . DS . $filename;
     $fh = fopen($file, 'rb');
     $stream = new Stream($fh); // create a stream instance for the response body
 

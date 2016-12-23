@@ -88,7 +88,7 @@ $app->any('/', function (Request $request, Response $response) {
 
     return $this->view->render($response, "index.phtml", [
         'imgSrc' => $imgSrc,
-        'messages' => $this->flash->getMessages()
+        'flash' => $this->flash
     ]);
 });
 

@@ -63,7 +63,7 @@ $app->any('/', function (Request $request, Response $response) {
 
             for ($i = 1; $i <= 9; $i++) {
                 $image = $this->imagine->open($uploadedImage->file);
-                $image->resize(new Box(354, 472));
+                $image->resize(new Box(354, 522));
                 $collage->paste($image, new Point($x, $y));
 
                 if ($i % 3 !== 0) {
